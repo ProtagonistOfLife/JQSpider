@@ -16,16 +16,60 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import net.sf.json.JSONObject;
-import service.DataResource;
+import service.JsonData;
 
-public class ZhiLian implements DataResource {
+public class JsonDataImp implements JsonData {
 
 	@Override
-	public JSONObject getJsonDate(JSONObject parm) {
+	public JSONObject getJsonData(String url,String charset) {
+		URL link = null;
+		InputStream is = null;
+		BufferedReader br = null;
+		String str = null;
+		StringBuffer sb = new StringBuffer();
+		JSONObject json = null;
+		
+		try {
+			link = new URL(url);
+			is = link.openStream();
+			br = new BufferedReader(new InputStreamReader(is, charset));
+			while((str = br.readLine()) != null){
+				System.out.println(str);
+				sb.append(str);
+			}
+			json = JSONObject.fromObject(sb.toString());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(is != null){
+				is.close();
+				}
+				if(br != null){
+					br.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return json;
+	}
+	
+	@Override
+	public JSONObject postJsonData(String url,JSONObject parm,String charset) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	/**
+	 * 连接智联数据测试
+	 */
 	@Test
 	public void test(){
 		URL url = null;
@@ -76,11 +120,5 @@ public class ZhiLian implements DataResource {
 		System.out.println("--------------<-xml--text->-----------------");
 		System.out.println(page.asText());
 		webclient.closeAllWindows();
-	}
-	
-	@Test
-	public void phantomJS(){
-		System.out.println(System.getProperty("user.dir"));
-		
 	}
 }

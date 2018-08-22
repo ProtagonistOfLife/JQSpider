@@ -1,5 +1,13 @@
 .requestdiv {
-	margin-left: 50;
+	margin-left: 50px;
 	margin-top: 200px;
 }
 
+.job_exclude{
+	margin-left:100px;
+	display: none;
+}
+
+.job_span{
+	display: none;
+}

@@ -8,7 +8,8 @@ if (system.args.length === 1) {
   console.log('Usage: loadspeed.js <some URL>');  
 //这行代码很重要。凡是结束必须调用。否则phantomjs不会停止  
   phantom.exit();  
-}  
+}
+page.settings.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36';
 page.settings.loadImages = false;  //为了提升加载速度，不加载图片  
 page.settings.resourceTimeout = 10000;//超过10秒放弃加载  
 //此处是用来设置截图的参数。不截图没啥用  
@@ -16,7 +17,7 @@ page.viewportSize = {
   width: 1280,  
   height: 800  
 };  
-block_urls = ['baidu.com'];//为了提升速度，屏蔽一些需要时间长的。比如百度广告  
+block_urls = ['.png','.jpg','.jpeg','gif'];//为了提升速度，屏蔽一些需要时间长的。比如百度广告  
 page.onResourceRequested = function(requestData, request){  
     for(url in block_urls) {  
         if(requestData.url.indexOf(block_urls[url]) !== -1) {  
@@ -25,13 +26,15 @@ page.onResourceRequested = function(requestData, request){
             return;  
         }  
     }              
-}  
+}
+
 t = Date.now();//看看加载需要多久。  
 address = system.args[1];  
-page.open(address, function(status) {  
+page.open(address, function(status) {
   if (status !== 'success') {  
     console.log('FAIL to load the address');  
-  } else {  
+  } else {
+	console.log('is running');
     t = Date.now() - t;  
 //此处原来是为了提取相应的元素。只要可以用document的，还是看可以用。但是自己的无法用document，只能在用字符分割在java里。  
     //  var ua = page.evaluate(function() {  
@@ -41,9 +44,28 @@ page.open(address, function(status) {
     // fs.write("qq.html", ua, 'w');  
    // console.log("测试qq: "+ua);    
 //console.log就是传输回去的内容。  
+    var websit = address.split('/')[2];
+    if(websit == 'www.zhipin.com'){
+    	zhipin();
+    }else if(websit == 'search.51job.com'){
+    	job51();
+    }
     console.log('Loading time ' + t + ' msec');  
-    console.log(page.content);  
-    setTimeout(function(){ phantom.exit(); }, 6000);  
+    setTimeout(function(){ phantom.exit(); }, 18000);  
   }  
   phantom.exit();  
-});  
+});
+
+function zhipin(){
+	var ua = page.evaluate(function () {
+		return document.getElementById('main').innerHTML;
+	});
+	console.log(ua);
+}
+
+function job51(){
+	var ua = page.evaluate(function () {
+		return document.getElementById('resultList').innerHTML;
+	});
+	console.log(ua);
+}

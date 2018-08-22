@@ -7,19 +7,31 @@
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="js/event.js"></script>
 		<script type="text/javascript" src="js/init.js"></script>
+		<script type="text/javascript" src="js/jobFilter.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/init.css">
 	</head>
 	<body>
 		<div class="requestdiv">
-			<select>
-				<option value="search" onchange="searchway('search')">普通搜索筛选</option>
-				<option value="job" onchange="search('job')">职业搜索筛选</option>
+			<select id="selectway">
+				<option value="search">普通搜索筛选</option>
+				<option value="job">职业搜索筛选</option>
 			</select>
 			<span class="conditionspan">
-				<input type="text" id="condition1">
-				<input type="text"	id="exclude1">
+				<span class="common_con">
+					<input type="text" id="condition1">
+					<input type="text"	id="exclude1">
+				</span>
+				<span class="job_span">
+					<input type="text" id='condition2'>
+					<input type="text" id="parm">
+				</span>
+				<button id="search_but" onclick="dosearch('search')">搜索</button>
 			</span>
+			<div class="job_exclude">
+				<input type="text" id="exkeyword1">
+				<input type="text" id="exkeyword2">
+			</div>
 		</div>
 		<div class="contextdiv">
 			<div class="showlist">

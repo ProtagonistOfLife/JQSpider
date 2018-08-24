@@ -18,7 +18,29 @@ function zhilian(urllink,parm){
 			charset:"utf-8"
 		},
 		success:function(data){
-			console.log(data);
+			var jobinfo = {};
+			var results = data.data.results;
+			console.log(results);
+			for(var ind in results){
+				if(jobinfo[results[ind].company.name] != null)
+					console.log(results[ind].company.name);
+				jobinfo[results[ind].company.name] = {"url":results[ind].positionURL,
+													  "companyurl":results[ind].company.url,
+													  "size":results[ind].company.size.name,
+													  "type":results[ind].company.type.name,
+													  "display":results[ind].jobType.display,
+													  "workingExp":results[ind].workingExp.name,
+													  "eduLevel":results[ind].eduLevel.name,
+													  "salary":results[ind].salary,
+													  "emplType":results[ind].emplType,
+													  "jobName":results[ind].jobName,
+													  "city":results[ind].city.display,
+													  "updateDate":results[ind].updateDate,
+													  "createDate":results[ind].createDate,
+													  "endDate":results[ind].endDate,
+													  "timeState":results[ind].timeState};
+			}
+			console.log(jobinfo);
 		},
 		dataType:"json"
 	});
@@ -35,8 +57,21 @@ function job51(urllink,parm){
 			charset:"GBK"
 		},
 		success:function(data){
-			datadeal(data);
-			showdata();
+			var jobinfo = {};
+			var divs = $('#resultList div.el',$(data));
+			
+			for(var ord = 1; ord < divs.length;ord++){
+				var companyname = divs[ord].childNodes[3].childNodes[0].innerText;
+				var companyinfo = {};
+				companyinfo.url = divs[ord].childNodes[3].childNodes[0].href;
+				companyinfo.city = divs[ord].childNodes[5].innerText;
+				companyinfo.salary = divs[ord].childNodes[7].innerText;
+				companyinfo.updateDate = "2018-" + divs[ord].childNodes[9].innerText + " 00:00:00";
+				companyinfo.display = trim(divs[ord].childNodes[1].innerText);
+				jobinfo[companyname] = companyinfo;
+//				console.log(divs[ord]);
+			}
+			console.log(jobinfo);
 		},
 		dataType:"html"
 	});
@@ -53,8 +88,21 @@ function bosszp(urllink,parm){
 			charset:"UTF-8"
 		},
 		success:function(data){
-			datadeal(data);
-			showdata();
+			var jobinfo = {};
+			var divs = $('#main div.job-list ul li a',$(data));
+
+			console.log(divs);
+			console.log(divs[1]+divs[2]);
+			for(var ord in divs){
+//				var companyname = trim(divs[ord].childNodes[3].childNodes[3].innerText);
+				console.log(divs[ord].children[0]);
+				var companyinfo = {};
+//				console.log(companyname);
+				companyinfo.url = divs[ord].href;
+				console.log(companyinfo);
+//				jobinfo[companyname] = companyinfo;
+			}
+//			console.log(jobinfo);
 		},
 		dataType:"html"
 	});
@@ -62,17 +110,17 @@ function bosszp(urllink,parm){
 
 function lagou(urllink,parm){
 	$.ajax({
-		type:"post",
-		url:urllink,
+		type:"get",
+		url:"http://localhost/JQSpider/getresource",
 		data:{
 			url:urllink,
-			type:"json",
+			type:"webkit",
 			charset:"UTF-8"
 		},
 		success:function(data){
 			datadeal(data);
 			showdata();
 		},
-		dataType:"json"
+		dataType:"text"
 	});
 }

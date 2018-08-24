@@ -12,4 +12,5 @@ public interface HtmlData {
 	public String getHtml(String url,String charset);
 //	post请求方式获取HTML
 	public String postHtml(String url,JSONObject parm,String charset);
+	public String webKitHtml(String url) throws Exception;
 }

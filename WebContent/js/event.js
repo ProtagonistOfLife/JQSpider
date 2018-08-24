@@ -30,11 +30,10 @@
 
 //按钮点击时间的触发事件
 function dosearch(way){
-	console.log("你好");
 	if(way == "search"){
 		//TODO普通搜索筛选
 	}else{
-		var urllink = "https://www.lagou.com/jobs/positionAjax.json?city=%E4%B8%8A%E6%B5%B7&needAddtionalResult=false";
-		lagou(urllink,null);
+		var urllink = "https://www.zhipin.com/job_detail/?query=Java&scity=101020100&industry=&position=";
+		bosszp(urllink,null);
 	}
 }

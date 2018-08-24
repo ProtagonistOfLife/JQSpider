@@ -3,11 +3,13 @@
 		<title>首页</title>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+		<meta http-equiv="cache-control" content="no-cache">
 		
 		<script type="text/javascript" src="js/jquery-1.8.3.min.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="js/event.js"></script>
 		<script type="text/javascript" src="js/init.js"></script>
 		<script type="text/javascript" src="js/jobFilter.js"></script>
+		<script type="text/javascript" src="js/tools.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/init.css">
 	</head>
@@ -15,7 +17,7 @@
 		<div class="requestdiv">
 			<select id="selectway">
 				<option value="search">普通搜索筛选</option>
-				<option value="job">职业搜索筛选</option>
+				<option value="job" selected="selected">职业搜索筛选</option>
 			</select>
 			<span class="conditionspan">
 				<span class="common_con">
@@ -26,7 +28,7 @@
 					<input type="text" id='condition2'>
 					<input type="text" id="parm">
 				</span>
-				<button id="search_but" onclick="dosearch('search')">搜索</button>
+				<button id="search_but" onclick="dosearch('job')">搜索</button>
 			</span>
 			<div class="job_exclude">
 				<input type="text" id="exkeyword1">

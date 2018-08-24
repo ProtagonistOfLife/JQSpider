@@ -64,6 +64,33 @@ public class HtmlDataImp implements HtmlData {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String webKitHtml(String url) throws IOException {
+		Runtime rt = Runtime.getRuntime();  
+		Process p = rt.exec(exePath + " " + jsPath + " " + url);  
+		InputStream is = p.getInputStream();
+		StringBuilder sb = new StringBuilder();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));  
+		String tmp = null;
+		while ((tmp = br.readLine()) != null){
+			if(tmp != ""){
+				System.out.println(tmp); 
+				sb.append(tmp).append("\r\n");
+			}
+		}
+		if(is != null)
+			is.close();
+		if(br != null)
+			br.close();
+		return sb.toString();
+	}
+	
+	@Test
+	public void use() throws IOException{
+		String url = "https://www.lagou.com/jobs/list_Java?city=%E4%B8%8A%E6%B5%B7&cl=false&fromSearch=true&labelWords=&suginput=";
+		webKitHtml(url);
+	}
 	
 	/**
 	 * phantomjs的试用
@@ -71,7 +98,7 @@ public class HtmlDataImp implements HtmlData {
 	 */
 	@Test
 	public void test() throws IOException{
-		String url = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?lang=c&stype=&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&providesalary=99&lonlat=0%2C0&radius=-1&ord_field=0&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare=";
+		String url = "https://www.lagou.com/jobs/list_Java?city=%E4%B8%8A%E6%B5%B7&cl=false&fromSearch=true&labelWords=&suginput=";
 		Runtime rt = Runtime.getRuntime();  
 		Process p = rt.exec(exePath + " " + jsPath + " " + url);  
 		InputStream is = p.getInputStream();  

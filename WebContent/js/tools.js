@@ -1,7 +1,7 @@
 function dosave(context,isconfig,filename){
 	$.ajax({
 		type:"post",
-		url:"http://localhost/JQSpider/dosave",
+		url:"http://localhost/JQSpider/fileopration",
 		data:{
 			"context":context,
 			"isconfig":isconfig,

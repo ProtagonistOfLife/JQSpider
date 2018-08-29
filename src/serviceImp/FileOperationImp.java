@@ -8,40 +8,44 @@ import java.io.PrintWriter;
 
 import org.junit.Test;
 
+import net.sf.json.JSONObject;
 import service.FileOperation;
 
 public class FileOperationImp implements FileOperation {
 
 	@Override
-	public void saveConfig(String context, String filePath) {
-		// TODO Auto-generated method stub
-
+	public void saveConfig(String context, File file) throws IOException {
+		if(!file.exists()){
+			file.createNewFile();
+		}
+		PrintWriter writer = new PrintWriter(new FileOutputStream(file,false));
+		writer.println(context);
+		writer.close();
 	}
 
 	@Override
-	public void saveInfo(String context, String filePath) {
-		// TODO Auto-generated method stub
-
+	public void saveInfo(JSONObject context, File file) throws IOException {
+		if(context == null){
+			return;
+		}
+		PrintWriter writer = new PrintWriter(new FileOutputStream(file,false));
+		writer.println(context);
+		writer.close();
+		
 	}
 
 	@Override
-	public String getConfig(String filePath) {
+	public String getFile(File file) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getInfo(String filePath) {
+	public File getLastFile(String path,String filename) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public boolean isExsit(String filePath) {
-		File file = new File(filePath);
-		return file.exists();
-	}
-	
 	@Test
 	public void newfiletest() throws IOException{
 		File position = new File(".");

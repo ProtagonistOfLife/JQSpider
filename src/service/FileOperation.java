@@ -1,9 +1,13 @@
 package service;
 
+import java.io.File;
+import java.io.IOException;
+
+import net.sf.json.JSONObject;
+
 public interface FileOperation {
-	public void saveConfig(String context,String filePath);
-	public void saveInfo(String context,String filePath);
-	public String getConfig(String filePath);
-	public String getInfo(String filePath);
-	public boolean isExsit(String filePath);
+	public void saveConfig(String context,File file) throws IOException;
+	public void saveInfo(JSONObject context,File file) throws IOException;
+	public String getFile(File file);
+	public File getLastFile(String path,String filename);
 }

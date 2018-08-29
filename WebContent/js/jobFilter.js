@@ -8,7 +8,37 @@ function showdata(){
 }
 
 //智联招聘筛选
-function zhilian(urllink,parm){
+function zhilian(condition,parm){
+//	var cities = {"上海":538};
+	var cities = {538:"上海"};
+	var parm = {
+			citycode:538,
+			workExperience:-1,
+			education:-1,
+			companyType:-1,
+			employmentType:-1,
+			jobWelfareTag:-1,
+			kw:"java",
+			kt:3
+	}
+	
+	var lasturlquery = {
+			//p:2,
+			jl:538,
+			kw:"java",
+			kt:3
+	}
+	var citycode = 538;
+	var urllink = "https://fe-api.zhaopin.com/c/i/sou?pageSize=60&cityId="
+		+ parm.citycode + "&workExperience="
+		+ parm.workExperience + "&education="
+		+ parm.education + "&companyType="
+		+ parm.companyType + "&employmentType="
+		+ parm.employmentType + "&jobWelfareTag="
+		+ parm.jobWelfareTag + "&kw="
+		+ parm.kw + "&kt="
+		+ parm.kt + "&lastUrlQuery=" 
+		+ jsonString(lasturlquery);
 	$.ajax({
 		type:"get",
 		url:"http://localhost/JQSpider/getresource",
@@ -19,27 +49,30 @@ function zhilian(urllink,parm){
 		},
 		success:function(data){
 			var jobinfo = {};
+			jobinfo[results[ind].company.name] = [];
 			var results = data.data.results;
 			console.log(results);
 			for(var ind in results){
 				if(jobinfo[results[ind].company.name] != null)
 					console.log(results[ind].company.name);
-				jobinfo[results[ind].company.name] = {"url":results[ind].positionURL,
-													  "companyurl":results[ind].company.url,
-													  "size":results[ind].company.size.name,
-													  "type":results[ind].company.type.name,
-													  "display":results[ind].jobType.display,
-													  "workingExp":results[ind].workingExp.name,
-													  "eduLevel":results[ind].eduLevel.name,
-													  "salary":results[ind].salary,
-													  "emplType":results[ind].emplType,
-													  "jobName":results[ind].jobName,
-													  "city":results[ind].city.display,
-													  "updateDate":results[ind].updateDate,
-													  "createDate":results[ind].createDate,
-													  "endDate":results[ind].endDate,
-													  "timeState":results[ind].timeState};
+				var json = {"url":results[ind].positionURL,
+							"companyurl":results[ind].company.url,
+							"size":results[ind].company.size.name,
+							"type":results[ind].company.type.name,
+							"display":results[ind].jobType.display,
+							"workingExp":results[ind].workingExp.name,
+							"eduLevel":results[ind].eduLevel.name,
+							"salary":results[ind].salary,
+							"emplType":results[ind].emplType,
+							"jobName":results[ind].jobName,
+							"city":results[ind].city.display,
+							"updateDate":results[ind].updateDate,
+							"createDate":results[ind].createDate,
+							"endDate":results[ind].endDate,
+							"timeState":results[ind].timeState};
+				jobinfo[results[ind].company.name][jobinfo[results[ind].company.name].length] = json;
 			}
+			jobfirstregular(jobinfo);
 			console.log(jobinfo);
 		},
 		dataType:"json"

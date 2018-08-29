@@ -30,10 +30,17 @@
 
 //按钮点击时间的触发事件
 function dosearch(way){
+	/*dosave("{context:'你好'}","test","test.tex");
+	return;*/
 	if(way == "search"){
 		//TODO普通搜索筛选
 	}else{
-		var urllink = "https://www.zhipin.com/job_detail/?query=Java&scity=101020100&industry=&position=";
-		bosszp(urllink,null);
+		/*var urllink = "https://www.zhipin.com/job_detail/?query=Java&scity=101020100&industry=&position=";
+		bosszp(urllink,null);*/
+		var condition = {};
+		condition.city = "上海";
+		condition.keyword = "java";
+		
+		zhilian(condition, null);
 	}
 }
